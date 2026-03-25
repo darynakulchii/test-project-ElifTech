@@ -1,7 +1,8 @@
-require('dotenv').config();
+require('dotenv').config({path:'./backend/.env'});
 const cors = require('cors')
 const {Pool} = require('pg');
 const express = require('express');
+const {c} = require("vite/dist/node/chunks/node");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -25,10 +26,17 @@ app.get('/api/shops', async (req, res) => {
         const {minRating, maxRating} = req.query;
         let query = 'SELECT * FROM shops';
         const values = [];
+        let valueIndex = 1;
 
-        if (minRating && maxRating) {
-            query += ` WHERE rating >= $1 AND rating <= $2`;
-            values.push(minRating, maxRating);
+        if (minRating) {
+            query += ` AND rating >= $${valueIndex}`;
+            values.push(minRating);
+            valueIndex++;
+        }
+        if (maxRating) {
+            query += ` AND rating <= $${valueIndex}`;
+            values.push(maxRating);
+            valueIndex++;
         }
 
         query += ` ORDER BY id ASC`;
@@ -43,7 +51,7 @@ app.get('/api/shops', async (req, res) => {
 app.get('/api/products', async (req, res) => {
     try{
         const {shop_id, category_id, sortBy, order, page = 1, limit = 10} = req.query;
-        let query = 'SELECT * FROM products WHERE 1=1';
+        let query = `SELECT * FROM products WHERE 1=1`;
         const values = [];
         let valueIndex =1;
 
@@ -79,6 +87,72 @@ app.get('/api/products', async (req, res) => {
         res.status(500).json({error:err.message});
     }
 });
+
+app.get('/api/orders/history', async (req, res) => {
+    try {
+        const {email, phone, order_id} = req.query;
+
+        if ((!email || !phone) && !order_id) {
+            return res.status(400).json({error:"Email and phone is required, or provide an Order ID"});
+        }
+
+        const values = [];
+        let query = `
+            SELECT
+                o.id AS order_id,
+                o.total_price,
+                o.created_at,
+                c.email,
+                c.phone,
+                od.quantity,
+                od.price_at_purchase,
+                p.id AS product_id,
+                p.name AS product_name,
+                p.image_url
+            FROM orders o 
+            JOIN customers c ON c.id = o.customer_id 
+            JOIN order_details od ON o.id=od.order_id
+            JOIN products p ON p.id = od.product_id
+            WHERE 1=1
+            `;
+
+        let valueIndex =1;
+
+        if (email && phone){
+            query += ` AND c.email = $${valueIndex} AND c.phone = $${valueIndex+1}`;
+            values.push(email, phone);
+            valueIndex +=2;
+        }
+
+        if(order_id){
+            query += ` AND o.id = $${valueIndex}`;
+            values.push(order_id);
+            valueIndex++;
+        }
+
+        query += ` ORDER BY o.created_at DESC`;
+        const result = await pool.query(query, values);
+        res.json(result.rows);
+
+    }catch(err){
+        console.error("Error getting history",err.message);
+        res.status(500).json({error:err.message});
+    }
+});
+
+app.get('/api/coupons', async (req, res) => {
+
+});
+
+app.get('api/coupons/validate/:code', async (req, res) => {
+
+});
+
+app.post('/api/orders', async (req, res) => {
+
+});
+
+
 
 
 
