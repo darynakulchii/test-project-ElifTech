@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery App - Shops</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+<header>
+    <nav>
+        <a href="main_page.html" class="active">Shop</a> |
+        <a href="shopping_cart.html">Shopping Cart</a> |
+        <a href="history.html">History</a> |
+        <a href="coupons.html">Coupons</a>
+    </nav>
+</header>
 
+<main class="layout">
+    <aside class="shops-sidebar">
+        <h3>Shops:</h3>
+        <div id="shops-list">
+            <p>Loading stores...</p>
+        </div>
+    </aside>
+
+    <section class="products-section">
+        <div class="filters-bar">
+            <select id="category-filter">
+                <option value="">All categories</option>
+            </select>
+            <select id="sort-select">
+                <option value="default">By default</option>
+                <option value="price-asc">Price (increase)</option>
+                <option value="price-desc">Price (decline)</option>
+                <option value="name-asc">In alphabetical order (A-Z)</option>
+            </select>
+        </div>
+
+        <div id="products-list" class="products-grid">
+        </div>
+    </section>
+</main>
+
+<script src="app.ts" type="module"></script>
 </body>
 </html>

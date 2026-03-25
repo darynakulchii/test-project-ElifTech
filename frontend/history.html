@@ -2,9 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery App - History</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+<header>
+    <nav>
+        <a href="main_page.html">Shop</a> |
+        <a href="shopping_cart.html">Shopping Cart</a> |
+        <a href="history.html" class="active">History</a> |
+        <a href="coupons.html">Coupons</a>
+    </nav>
+</header>
 
+<main class="history-layout">
+    <section class="search-section">
+        <form id="search-history-form">
+            <div class="form-group">
+                <label for="search-email">Email:</label>
+                <input type="email" id="search-email">
+            </div>
+            <div class="form-group">
+                <label for="search-phone">Phone:</label>
+                <input type="tel" id="search-phone">
+            </div>
+            <button type="submit">Find Orders</button>
+        </form>
+    </section>
+
+    <section class="orders-history-section">
+        <div id="orders-list">
+            <p>Enter the search criteria</p>
+        </div>
+    </section>
+</main>
+
+<script src="app.ts" type="module"></script>
 </body>
 </html>
