@@ -2,7 +2,6 @@ require('dotenv').config({path:'./backend/.env'});
 const cors = require('cors')
 const {Pool} = require('pg');
 const express = require('express');
-const {c} = require("vite/dist/node/chunks/node");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -24,7 +23,7 @@ app.listen(3000);
 app.get('/api/shops', async (req, res) => {
     try{
         const {minRating, maxRating} = req.query;
-        let query = 'SELECT * FROM shops';
+        let query = 'SELECT * FROM shops WHERE 1=1';
         const values = [];
         let valueIndex = 1;
 
@@ -50,7 +49,10 @@ app.get('/api/shops', async (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     try{
-        const {shop_id, category_id, sortBy, order, page = 1, limit = 10} = req.query;
+        const {shop_id, category_id, sortBy, order} = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
         let query = `SELECT * FROM products WHERE 1=1`;
         const values = [];
         let valueIndex =1;
@@ -85,6 +87,50 @@ app.get('/api/products', async (req, res) => {
     }catch(err){
         console.error("Error getting products",err.message);
         res.status(500).json({error:err.message});
+    }
+});
+
+app.post('/api/orders', async (req, res) => {
+    const client = await pool.connect();
+    try{
+        await client.query('BEGIN')
+        const{name, email, phone, address, total_price,items, coupon_id = null} = req.body;
+
+        if(!name || !email || !phone || !address || !items || items.length <= 0){
+            await client.query('ROLLBACK')
+            return res.status(400).json({error: "Name, email, phone and address is required"});
+        }
+
+        let customerId;
+        const customerLookup = await client.query(`SELECT id FROM customers WHERE email = $1 AND phone = $2 LIMIT 1`, [email,phone])
+
+        if (customerLookup.rows.length > 0) {
+            customerId = customerLookup.rows[0].id;
+        }else{
+            const newCustomerId = await client.query(`INSERT INTO customers(name,email,phone,address) VALUES ($1,$2,$3,$4) RETURNING id`,[name, email, phone, address]);
+            customerId = newCustomerId.rows[0].id;
+        }
+
+        const orderResult = await client.query(
+            `INSERT INTO orders(customer_id, total_price, coupon_id) VALUES ($1,$2,$3) RETURNING id`, [customerId, total_price, coupon_id]
+        );
+
+        const orderId = orderResult.rows[0].id;
+
+        for (const item of items){
+            await client.query(`INSERT INTO order_details(order_id, product_id, quantity, price_at_purchase) VALUES ($1,$2,$3,$4) RETURNING id`,
+                [orderId, item.product_id, item.quantity, item.price]);
+        }
+
+        await client.query('COMMIT');
+        res.status(201).json({success:true, orderId:orderId});
+
+    }catch(err){
+        await client.query('ROLLBACK')
+        console.error("Error posting orders",err.message);
+        res.status(500).json({error:err.message});
+    }finally {
+        client.release();
     }
 });
 
@@ -141,16 +187,36 @@ app.get('/api/orders/history', async (req, res) => {
 });
 
 app.get('/api/coupons', async (req, res) => {
+    try{
+        const result = await pool.query('SELECT * FROM coupons ORDER BY discount_percent DESC');
+        res.json(result.rows);
 
+    }catch(err){
+        console.error("Error getting coupons",err.message);
+        res.status(500).json({error:err.message});
+    }
 });
 
-app.get('api/coupons/validate/:code', async (req, res) => {
+app.get('/api/coupons/validate/:code', async (req, res) => {
+    try{
+        const {code} = req.params;
+        const result = await pool.query(`SELECT discount_percent FROM coupons WHERE code = $1`,[code]);
 
+        if(result.rows.length <= 0){
+            return res.status(400).json({err:"Invalid coupon"})
+        }
+
+        res.json({
+            success:true,
+            discount_percent: result.rows[0].discount_percent
+        })
+
+    }catch(err){
+        console.error("Error getting coupons",err.message);
+        res.status(500).json({error:err.message});
+    }
 });
 
-app.post('/api/orders', async (req, res) => {
-
-});
 
 
 
