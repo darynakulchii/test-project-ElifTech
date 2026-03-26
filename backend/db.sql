@@ -2,7 +2,8 @@ CREATE TABLE shops(
                       id SERIAL PRIMARY KEY,
                       name VARCHAR(255) NOT NULL UNIQUE,
                       description VARCHAR(500),
-                      rating NUMERIC(2, 1) CHECK ( rating >= 1.0 AND rating <= 5.0)
+                      rating NUMERIC(2, 1) CHECK ( rating >= 1.0 AND rating <= 5.0),
+                      image_url VARCHAR(500)
 );
 
 CREATE TABLE product_categories(
