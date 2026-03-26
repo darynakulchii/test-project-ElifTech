@@ -1,0 +1,115 @@
+:root {
+    --primary-dark: #030213;
+    --orange-600: #ea580c;
+    --orange-500: #f97316;
+    --bg-gray: #f9fafb;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --white: #ffffff;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --radius: 0.625rem;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-gray);
+    color: var(--text-main);
+    margin: 0;
+}
+
+.layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+}
+
+.card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.btn-primary {
+    background-color: var(--orange-600);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #d44a0b;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #fff7ed;
+    color: var(--orange-600);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.coupon-card {
+    background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-code {
+    font-family: monospace;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+    display: block;
+    text-align: center;
+    border-radius: 0.25rem;
+    margin: 1rem 0;
+}
