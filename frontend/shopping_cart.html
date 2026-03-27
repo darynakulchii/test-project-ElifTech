@@ -48,7 +48,13 @@
         </div>
 
         <div class="cart-summary" style="border-top: 2px solid #f9fafb; padding-top: 1rem; text-align: right;">
+            <div id="discount-summary" class="discount-summary" style="margin-bottom: 0.5rem; color: #6b7280; display: none;">
+                <span>Original Price: <s id="original-price">0.00 ₴</s></span><br>
+                <span style="color: #10b981;">Discount: -<span id="discount-amount">0.00 ₴</span> (<span id="discount-percent">0%</span>)</span>
+            </div>
+
             <h3 id="total-price-display" style="margin-bottom: 1rem;">Total price: 0.00 ₴</h3>
+
             <button type="submit" form="order-form" id="submit-order-btn" class="btn-primary">Submit Order</button>
         </div>
     </section>
