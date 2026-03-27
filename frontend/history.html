@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery App - History</title>
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -17,24 +16,24 @@
     </nav>
 </header>
 
-<main class="history-layout">
-    <section class="search-section">
-        <form id="search-history-form">
-            <div class="form-group">
+<main class="history-layout" style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
+    <section class="search-section" style="background: #fff; padding: 1.5rem; border-radius: 0.625rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
+        <form id="search-history-form" style="display: flex; gap: 1rem; align-items: flex-end;">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
                 <label for="search-email">Email:</label>
-                <input type="email" id="search-email">
+                <input type="email" id="search-email" required placeholder="Ваш email">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
                 <label for="search-phone">Phone:</label>
-                <input type="tel" id="search-phone">
+                <input type="tel" id="search-phone" required placeholder="Ваш телефон">
             </div>
-            <button type="submit">Find Orders</button>
+            <button type="submit" class="btn-primary" style="width: auto;">Find Orders</button>
         </form>
     </section>
 
     <section class="orders-history-section">
         <div id="orders-list">
-            <p>Enter the search criteria</p>
+            <p style="text-align: center; color: #6b7280;">Enter search criteria to see your past orders</p>
         </div>
     </section>
 </main>

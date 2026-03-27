@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery App - Shops</title>
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -26,19 +25,25 @@
     </aside>
 
     <section class="products-section">
-        <div class="filters-bar">
-            <select id="category-filter">
+        <div class="filters-bar" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <select id="category-filter" style="padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
                 <option value="">All categories</option>
+                <option value="1">Burgers</option>
+                <option value="2">Drinks</option>
+                <option value="3">Desserts</option>
             </select>
-            <select id="sort-select">
-                <option value="default">By default</option>
-                <option value="price-asc">Price (increase)</option>
-                <option value="price-desc">Price (decline)</option>
-                <option value="name-asc">In alphabetical order (A-Z)</option>
+
+            <select id="sort-select" style="padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                <option value="-">By default</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+                <option value="name-asc">Alphabetical (A-Z)</option>
+                <option value="name-desc">Alphabetical (Z-A)</option>
             </select>
         </div>
 
         <div id="products-list" class="products-grid">
+            <p class="empty-msg">Оберіть магазин, щоб побачити товари.</p>
         </div>
     </section>
 </main>

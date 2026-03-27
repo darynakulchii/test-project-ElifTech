@@ -58,5 +58,3 @@ CREATE TABLE order_details(
                               price_at_purchase NUMERIC(10,2) NOT NULL
 );
 
-
-

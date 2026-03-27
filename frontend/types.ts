@@ -27,6 +27,8 @@ export interface CartItem {
     product_id: number;
     quantity: number;
     price: number;
+    product_name: string;
+    image_url: string;
 }
 
 export interface Order {
