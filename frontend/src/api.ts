@@ -1,4 +1,4 @@
-const API_URL = 'postgresql://delivery_db_7q20_user:9V09uGWHOVKmEoZ5tjJPHgxWwjbFSFQl@dpg-d736rsn5r7bs738h1ngg-a/delivery_db_7q20';
+const API_URL = 'https://test-project-eliftech.onrender.com/api';
 
 export const api = {
     async getShops() {
