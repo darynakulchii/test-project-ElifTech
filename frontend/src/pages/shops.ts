@@ -6,7 +6,8 @@ const nodes = {
     get shopList() { return document.getElementById("shops-list"); },
     get productGrid() { return document.getElementById("products-list"); },
     get categoryFilter() { return document.getElementById("category-filter") as HTMLSelectElement; },
-    get sortSelect() { return document.getElementById("sort-select") as HTMLSelectElement; }
+    get sortSelect() { return document.getElementById("sort-select") as HTMLSelectElement; },
+    get ratingFilter() { return document.getElementById("rating-filter") as HTMLSelectElement; }
 };
 
 let currentShopId: number | null = null;
@@ -27,11 +28,17 @@ function setupEventListeners() {
     nodes.categoryFilter?.addEventListener("change", () => {
         if (currentShopId) refreshProducts();
     });
+
+    nodes.ratingFilter?.addEventListener("change", async () => {
+        const minRating = nodes.ratingFilter.value;
+        await loadShops(minRating);
+    });
 }
 
-async function loadShops() {
+async function loadShops(minRating?: string) {
     try {
-        const shops: Shop[] = await api.getShops();
+        const shops: Shop[] = await api.getShops(minRating);
+
         if (nodes.shopList) {
             nodes.shopList.innerHTML = shops.map(shop => `
                 <button class="shop-btn" data-id="${shop.id}" onclick="window.selectShop(${shop.id})">

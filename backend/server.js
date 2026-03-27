@@ -70,9 +70,9 @@ app.get('/api/products', async (req, res) => {
         }
 
         if(sortBy==='price'){
-            query += order === 'desc' ? ` ORDER BY  price DESC` : ` ORDER BY  price ASC`;
+            query += order.toUpperCase() === 'DESK' ? ` ORDER BY  price DESC` : ` ORDER BY  price ASC`;
         } else if(sortBy === 'name'){
-            query += ` ORDER BY  name ASC`;
+            query += order.toUpperCase() === 'DESK' ? ` ORDER BY  price name` :` ORDER BY  name ASC`;
         } else {
             query += ` ORDER BY id ASC`;
         }

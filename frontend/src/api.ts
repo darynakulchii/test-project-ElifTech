@@ -1,8 +1,12 @@
 const API_URL = 'https://test-project-eliftech.onrender.com/api';
 
 export const api = {
-    async getShops() {
-        const res = await fetch(`${API_URL}/shops`);
+    async getShops(minRating?: string) {
+        let url = `${API_URL}/shops`;
+        if (minRating) {
+            url += `?minRating=${minRating}`;
+        }
+        const res = await fetch(url);
         return res.json();
     },
     async getProducts(params: { shop_id: number; sortBy?: string; order?: string; category_id?: string }) {
