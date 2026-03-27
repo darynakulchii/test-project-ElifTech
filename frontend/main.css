@@ -310,26 +310,6 @@ button[type="submit"]:hover {
     color: #ef4444;
 }
 
-
-.coupons-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 1rem 0;
-}
-
-.coupon-ticket {
-    background: #fff;
-    border: 2px dashed #e5e7eb;
-    border-radius: 2rem;
-    padding: 2.5rem 1.5rem 1.5rem;
-    position: relative;
-    text-align: center;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
-    overflow: hidden;
-}
-
 .coupon-ticket:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
@@ -370,4 +350,36 @@ button[type="submit"]:hover {
 
 .btn-copy:hover {
     background: #1e293b;
+}
+
+
+.coupons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    width: 100%;
+}
+
+.coupon-ticket {
+    background: #fff;
+    border: 2px dashed #e5e7eb;
+    border-radius: 1.5rem;
+    padding: 3rem 1rem 1.5rem;
+    position: relative;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+@media (max-width: 1024px) {
+    .coupons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .coupons-grid {
+        grid-template-columns: 1fr;
+    }
 }
