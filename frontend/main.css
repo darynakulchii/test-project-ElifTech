@@ -196,8 +196,6 @@ button[type="submit"]:hover {
     }
 }
 
-
-
 #cart-items-list {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -310,4 +308,66 @@ button[type="submit"]:hover {
 
 .remove-item-btn:hover {
     color: #ef4444;
+}
+
+
+.coupons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.coupon-ticket {
+    background: #fff;
+    border: 2px dashed #e5e7eb;
+    border-radius: 2rem;
+    padding: 2.5rem 1.5rem 1.5rem;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.coupon-ticket:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    border-bottom-left-radius: 1.5rem;
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.coupon-ticket h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+}
+
+.btn-copy {
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 0.8rem;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-copy:hover {
+    background: #1e293b;
 }
