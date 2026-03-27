@@ -9,10 +9,13 @@ export const api = {
         const res = await fetch(url);
         return res.json();
     },
-    async getProducts(params: { shop_id: number; sortBy?: string; order?: string; category_id?: string }) {
+    async getProducts(params: { shop_id: number; sortBy?: string; order?: string; category_id?: string; page?: number; limit?: number }) {
         let url = `${API_URL}/products?shop_id=${params.shop_id}`;
         if (params.sortBy) url += `&sortBy=${params.sortBy}&order=${params.order}`;
         if (params.category_id) url += `&category_id=${params.category_id}`;
+        if (params.page) url += `&page=${params.page}`;
+        if (params.limit) url += `&limit=${params.limit}`;
+
         const res = await fetch(url);
         return res.json();
     },

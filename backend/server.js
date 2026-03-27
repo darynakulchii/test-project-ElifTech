@@ -48,45 +48,46 @@ app.get('/api/shops', async (req, res) => {
 });
 
 app.get('/api/products', async (req, res) => {
-    try{
-        const {shop_id, category_id, sortBy, order} = req.query;
+    try {
+        const { shop_id, category_id, sortBy, order } = req.query;
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 9;
 
         let query = `SELECT * FROM products WHERE 1=1`;
         const values = [];
-        let valueIndex =1;
+        let valueIndex = 1;
 
-        if(shop_id){
+        if (shop_id) {
             query += ` AND shop_id = $${valueIndex}`;
             values.push(shop_id);
-            valueIndex ++;
+            valueIndex++;
         }
 
-        if(category_id){
+        if (category_id) {
             query += ` AND category_id = $${valueIndex}`;
             values.push(category_id);
-            valueIndex ++;
+            valueIndex++;
         }
 
-        if(sortBy==='price'){
-            query += order.toUpperCase() === 'DESK' ? ` ORDER BY  price DESC` : ` ORDER BY  price ASC`;
-        } else if(sortBy === 'name'){
-            query += order.toUpperCase() === 'DESK' ? ` ORDER BY  price name` :` ORDER BY  name ASC`;
+        const sortOrder = (order && order.toUpperCase() === 'DESC') ? 'DESC' : 'ASC';
+        if (sortBy === 'price') {
+            query += ` ORDER BY price ${sortOrder}`;
+        } else if (sortBy === 'name') {
+            query += ` ORDER BY name ${sortOrder}`;
         } else {
             query += ` ORDER BY id ASC`;
         }
 
         const offset = (page - 1) * limit;
-        query += ` LIMIT $${valueIndex} OFFSET $${valueIndex+1}`;
+        query += ` LIMIT $${valueIndex} OFFSET $${valueIndex + 1}`;
         values.push(limit, offset);
 
         const result = await pool.query(query, values);
         res.json(result.rows);
 
-    }catch(err){
-        console.error("Error getting products",err.message);
-        res.status(500).json({error:err.message});
+    } catch (err) {
+        console.error("Error getting products", err.message);
+        res.status(500).json({ error: err.message });
     }
 });
 

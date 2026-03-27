@@ -12,7 +12,7 @@ const nodes = {
 
 let currentShopId: number | null = null;
 let currentPage = 1;
-const itemsPerPage = 10;
+const itemsPerPage = 9;
 
 export async function initShopsPage() {
     setupEventListeners();
