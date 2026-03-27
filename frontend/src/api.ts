@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'postgresql://delivery_db_7q20_user:9V09uGWHOVKmEoZ5tjJPHgxWwjbFSFQl@dpg-d736rsn5r7bs738h1ngg-a/delivery_db_7q20';
 
 export const api = {
     async getShops() {
