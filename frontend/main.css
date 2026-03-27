@@ -22,6 +22,11 @@ body {
     line-height: 1.5;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 header {
     background: var(--white);
     box-shadow: var(--shadow);
@@ -60,6 +65,15 @@ nav a.active, nav a:hover {
     padding: 0 2rem;
 }
 
+.cart-layout {
+    max-width: 1200px;
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
 .shops-sidebar {
     background: var(--white);
     padding: 1.5rem;
@@ -92,9 +106,15 @@ nav a.active, nav a:hover {
     border-color: var(--primary-color);
 }
 
+.filters-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
 }
 
@@ -131,69 +151,11 @@ nav a.active, nav a:hover {
     color: var(--primary-color);
 }
 
-.cart-layout {
-    max-width: 1200px;
-    margin: 2rem auto;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 2rem;
-    padding: 0 2rem;
-}
-
 .user-form-section, .cart-items-section {
     background: var(--white);
     padding: 2rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-}
-
-.form-group {
-    margin-bottom: 1.25rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    outline: none;
-}
-
-.form-group input:focus {
-    border-color: var(--primary-color);
-    ring: 2px var(--primary-color);
-}
-
-button[type="submit"], .btn-primary {
-    background: var(--primary-color);
-    color: var(--white);
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.2s;
-}
-
-button[type="submit"]:hover {
-    background: var(--primary-hover);
-}
-
-@media (max-width: 768px) {
-    .layout, .cart-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .shops-sidebar {
-        order: -1;
-    }
 }
 
 #cart-items-list {
@@ -310,6 +272,64 @@ button[type="submit"]:hover {
     color: #ef4444;
 }
 
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+button[type="submit"], .btn-primary {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+button[type="submit"]:hover, .btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.coupons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    width: 100%;
+}
+
+.coupon-ticket {
+    background: #fff;
+    border: 2px dashed #e5e7eb;
+    border-radius: 1.5rem;
+    padding: 3rem 1rem 1.5rem;
+    position: relative;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
 .coupon-ticket:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
@@ -352,32 +372,6 @@ button[type="submit"]:hover {
     background: #1e293b;
 }
 
-
-.coupons-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    width: 100%;
-}
-
-.coupon-ticket {
-    background: #fff;
-    border: 2px dashed #e5e7eb;
-    border-radius: 1.5rem;
-    padding: 3rem 1rem 1.5rem;
-    position: relative;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: transform 0.2s, border-color 0.2s;
-}
-
-.filters-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
 .order-footer {
     display: flex;
     justify-content: space-between;
@@ -385,62 +379,6 @@ button[type="submit"]:hover {
     padding-top: 1rem;
     border-top: 1px solid #e5e7eb;
 }
-
-@media (max-width: 1024px) {
-    .coupons-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .coupons-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-}
-
-@media (max-width: 1024px) {
-    .layout, .cart-layout {
-        grid-template-columns: 1fr;
-        padding: 0 1rem;
-    }
-
-    .shops-sidebar {
-        margin-bottom: 1.5rem;
-    }
-}
-
-@media (max-width: 640px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .product-card img {
-        height: 150px;
-    }
-
-    .user-form-section, .cart-items-section {
-        padding: 1rem;
-    }
-
-    .coupons-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
 
 @media (max-width: 1024px) {
     .layout, .cart-layout {
@@ -499,23 +437,29 @@ img {
 @media (max-width: 640px) {
     nav {
         flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
-    }
-
-    .product-card img {
-        height: 150px;
     }
 
     .user-form-section, .cart-items-section {
         padding: 1.25rem 1rem;
     }
 
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .product-card img {
+        height: 150px;
+    }
+
     .coupons-grid {
         grid-template-columns: 1fr;
     }
 
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    .coupon-ticket {
+        padding: 3rem 1rem 1.5rem;
     }
 
     .cart-item {
@@ -541,9 +485,5 @@ img {
     #cart-items-list {
         grid-template-columns: 1fr;
         padding: 0;
-    }
-
-    .coupon-ticket {
-        padding: 3rem 1rem 1.5rem;
     }
 }
