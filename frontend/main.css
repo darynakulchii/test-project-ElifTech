@@ -383,3 +383,45 @@ button[type="submit"]:hover {
         grid-template-columns: 1fr;
     }
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .layout, .cart-layout {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .shops-sidebar {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .product-card img {
+        height: 150px;
+    }
+
+    .user-form-section, .cart-items-section {
+        padding: 1rem;
+    }
+
+    .coupons-grid {
+        grid-template-columns: 1fr;
+    }
+}

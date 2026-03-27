@@ -43,7 +43,7 @@ async function loadShops(minRating?: string) {
             nodes.shopList.innerHTML = shops.map(shop => `
                 <button class="shop-btn" data-id="${shop.id}" onclick="window.selectShop(${shop.id})">
                     ${shop.name}
-                    <span class="rating"> ${shop.rating}</span>
+                    <span class="rating"> ☆${shop.rating}</span>
                 </button>
             `).join("");
         }
@@ -103,6 +103,16 @@ function renderProducts(products: Product[]) {
 };
 
 (window as any).handleAddToCart = (product: Product) => {
-    cartManager.addItem(product);
-    alert(`${product.name} is added to the cart!`);
+    const success = cartManager.addItem(product);
+
+    if (success) {
+        alert(`${product.name} is added to the cart!`);
+    } else {
+        const confirmClear = confirm("You can only order items from one store at a time. Would you like to clear your cart to add this item?");
+        if (confirmClear) {
+            cartManager.clear();
+            cartManager.addItem(product);
+            alert(`${product.name}  is added to the cart!`);
+        }
+    }
 };

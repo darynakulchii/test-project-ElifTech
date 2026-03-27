@@ -5,7 +5,11 @@ let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
 export const cartManager = {
     getContents: () => cart,
 
-    addItem(product: Product) {
+    addItem(product: Product): boolean {
+        if (cart.length > 0 && cart[0].shop_id !== product.shop_id) {
+            return false;
+        }
+
         const existing = cart.find(item => item.product_id === product.id);
         if (existing) {
             existing.quantity += 1;
@@ -15,10 +19,12 @@ export const cartManager = {
                 quantity: 1,
                 price: product.price,
                 product_name: product.name,
-                image_url: product.image_url
-            } as any);
+                image_url: product.image_url,
+                shop_id: product.shop_id
+            });
         }
         this.save();
+        return true;
     },
 
     updateQty(id: number, qty: number) {
