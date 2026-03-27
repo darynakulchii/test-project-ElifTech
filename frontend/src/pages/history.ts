@@ -75,7 +75,7 @@ function renderHistory(orders: any[]) {
                 `).join('')}
             </div>
             
-            <div class="order-footer" style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; border-top: 1px solid #eee;">
+            <div class="order-footer">
                 <strong>Total: ${order.total_price} ₴</strong>
                 <button class="btn-primary" onclick="window.reorderOrder(${order.order_id})">Reorder</button>
             </div>
