@@ -484,4 +484,13 @@ button[type="submit"]:hover, .btn-primary:hover {
         width: 100%;
         font-size: 0.9rem;
     }
+
+    .coupons-grid {
+        grid-template-columns: 1fr;
+    }
+    .coupon-ticket {
+        padding: 3rem 1rem 1.5rem;
+    }
 }
+
+
