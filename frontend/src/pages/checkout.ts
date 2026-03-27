@@ -5,12 +5,6 @@ import { Order, CartItem } from "../../types";
 let discountedPrice: number | null = null;
 let discountPercentValue: number = 0;
 
-const knownCoupons = [
-    { code: 'WELCOME10', discountPercent: 10 },
-    { code: 'HAPPY20', discountPercent: 20 },
-    { code: 'CRAZY50', discountPercent: 50 }
-];
-
 const nodes = {
     get cartList() { return document.getElementById("cart-items-list"); },
     get totalPrice() { return document.getElementById("total-price-display"); },
@@ -80,43 +74,53 @@ function renderCheckout() {
     applyCoupon();
 }
 
-function applyCoupon() {
+async function applyCoupon() {
     if (!nodes.couponInput || !nodes.totalPrice) return;
 
     const couponCode = nodes.couponInput.value.trim().toUpperCase();
     const originalTotalPrice = getCartTotal();
 
     if (!couponCode) {
-        discountedPrice = null;
-        discountPercentValue = 0;
-        if (nodes.discountSummary) nodes.discountSummary.style.display = 'none';
-        nodes.totalPrice.innerText = `Total price: ${originalTotalPrice.toFixed(2)} ₴`;
-        nodes.totalPrice.style.color = 'inherit';
+        resetDiscount(originalTotalPrice);
         return;
     }
 
-    const matchedCoupon = knownCoupons.find(c => c.code === couponCode);
+    try {
+        const data = await api.validateCoupon(couponCode);
 
-    if (matchedCoupon) {
-        discountPercentValue = matchedCoupon.discountPercent;
-        const discountVal = originalTotalPrice * (discountPercentValue / 100);
-        discountedPrice = originalTotalPrice - discountVal;
+        if (data.success) {
+            discountPercentValue = data.discount_percent;
+            const discountVal = originalTotalPrice * (discountPercentValue / 100);
+            discountedPrice = originalTotalPrice - discountVal;
 
-        if (nodes.discountSummary) {
-            nodes.discountSummary.style.display = 'block';
-            if (nodes.originalPrice) nodes.originalPrice.innerText = `${originalTotalPrice.toFixed(2)} ₴`;
-            if (nodes.discountAmount) nodes.discountAmount.innerText = `${discountVal.toFixed(2)} ₴`;
-            if (nodes.discountPercentNode) nodes.discountPercentNode.innerText = `${discountPercentValue}%`;
+            updateDiscountUI(originalTotalPrice, discountVal, discountPercentValue);
         }
-
-        nodes.totalPrice.innerText = `Total price: ${discountedPrice.toFixed(2)} ₴`;
-        nodes.totalPrice.style.color = '#10b981';
-    } else {
-        discountedPrice = null;
-        discountPercentValue = 0;
-        if (nodes.discountSummary) nodes.discountSummary.style.display = 'none';
-        nodes.totalPrice.innerText = `Total price: ${originalTotalPrice.toFixed(2)} ₴`;
+    } catch (error) {
+        console.warn("Coupon validation failed:", error);
+        resetDiscount(originalTotalPrice);
+        nodes.couponInput.style.borderColor = "red";
     }
+}
+
+function resetDiscount(price: number) {
+    discountedPrice = null;
+    discountPercentValue = 0;
+    if (nodes.discountSummary) nodes.discountSummary.style.display = 'none';
+    nodes.totalPrice!.innerText = `Total price: ${price.toFixed(2)} ₴`;
+    nodes.totalPrice!.style.color = 'inherit';
+    nodes.couponInput!.style.borderColor = "";
+}
+
+function updateDiscountUI(original: number, discount: number, percent: number) {
+    if (nodes.discountSummary) {
+        nodes.discountSummary.style.display = 'block';
+        if (nodes.originalPrice) nodes.originalPrice.innerText = `${original.toFixed(2)} ₴`;
+        if (nodes.discountAmount) nodes.discountAmount.innerText = `${discount.toFixed(2)} ₴`;
+        if (nodes.discountPercentNode) nodes.discountPercentNode.innerText = `${percent}%`;
+    }
+    nodes.totalPrice!.innerText = `Total price: ${discountedPrice!.toFixed(2)} ₴`;
+    nodes.totalPrice!.style.color = '#10b981';
+    nodes.couponInput!.style.borderColor = "#10b981";
 }
 
 async function handleOrderSubmit() {
@@ -138,7 +142,8 @@ async function handleOrderSubmit() {
             quantity: i.quantity,
             price: i.price,
             product_name: i.product_name,
-            image_url: i.image_url
+            image_url: i.image_url,
+            shop_id: i.shop_id
         }))
     };
 

@@ -11,6 +11,8 @@ const nodes = {
 };
 
 let currentShopId: number | null = null;
+let currentPage = 1;
+const itemsPerPage = 10;
 
 export async function initShopsPage() {
     setupEventListeners();
@@ -55,17 +57,19 @@ async function loadShops(minRating?: string) {
 async function refreshProducts(sortBy = '', order = '') {
     if (!currentShopId) return;
 
-    const categoryId = nodes.categoryFilter?.value;
     const params = {
         shop_id: currentShopId,
         sortBy: sortBy || nodes.sortSelect.value.split("-")[0],
         order: order || nodes.sortSelect.value.split("-")[1],
-        category_id: categoryId !== "" ? categoryId : undefined
+        category_id: nodes.categoryFilter?.value || undefined,
+        page: currentPage,
+        limit: itemsPerPage
     };
 
     try {
-        const products: Product[] = await api.getProducts(params);
+        const products = await api.getProducts(params);
         renderProducts(products);
+        renderPagination(products.length);
     } catch (error) {
         console.error("Error loading products:", error);
     }
@@ -115,4 +119,21 @@ function renderProducts(products: Product[]) {
             alert(`${product.name}  is added to the cart!`);
         }
     }
+};
+
+function renderPagination(currentBatchLength: number) {
+    const container = document.getElementById("pagination-controls");
+    if (!container) return;
+
+    container.innerHTML = `
+        <button class="btn-primary" style="width: auto;" ${currentPage === 1 ? 'disabled' : ''} onclick="window.changePage(${currentPage - 1})">Prev</button>
+        <span style="align-self: center;">Page ${currentPage}</span>
+        <button class="btn-primary" style="width: auto;" ${currentBatchLength < itemsPerPage ? 'disabled' : ''} onclick="window.changePage(${currentPage + 1})">Next</button>
+    `;
+}
+
+(window as any).changePage = (page: number) => {
+    currentPage = page;
+    refreshProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };

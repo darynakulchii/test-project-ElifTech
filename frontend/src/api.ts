@@ -30,5 +30,12 @@ export const api = {
     async getCoupons() {
         const res = await fetch(`${API_URL}/coupons`);
         return res.json();
+    },
+    async validateCoupon(code: string) {
+        const res = await fetch(`${API_URL}/coupons/validate/${encodeURIComponent(code)}`);
+        if (!res.ok) {
+            throw new Error('Invalid coupon');
+        }
+        return res.json();
     }
 };
